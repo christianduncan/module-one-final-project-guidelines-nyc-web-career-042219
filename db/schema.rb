@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 3) do
+ActiveRecord::Schema.define(version: 4) do
 
   create_table "coins", force: :cascade do |t|
     t.string  "name"
     t.float   "price"
-    t.integer "market_cap"
-    t.integer "volume_24h"
+    t.integer "market_cap", limit: 8
+    t.integer "volume_24h", limit: 8
     t.float   "change_24h"
   end
 
