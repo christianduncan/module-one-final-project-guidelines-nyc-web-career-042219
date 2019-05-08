@@ -7,5 +7,5 @@ class CreateWallets < ActiveRecord::Migration
       t.integer :coin_id
       t.integer :user_id
     end
-  end 
+  end
 end
