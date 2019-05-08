@@ -28,23 +28,26 @@ def welcome
 end
 
 def buy_or_hold(coin_selection)
-  puts "would you like add this #{coin_selection} to your wallet?"
+  puts "would you like add this #{coin_selection} to your wallet?(yes/no)"
   answer = gets.chomp
-  if answer == "y" || "yes"
+  case answer
+  when "yes"
   coin_hash = get_coindata(coin_selection).flatten
   new_coin = Coin.create(:name => coin_selection,
     :price => coin_hash[1].to_d.truncate(2).to_f,
     :market_cap => coin_hash[11],
     :volume_24h => coin_hash[3],
     :change_24h => coin_hash[7].to_d.truncate(2).to_f)
-
-  elsif
-    answer == "n" || "no"
-    puts "Would you like to search for another coin or quit (type q / quit)?"
+  when "no"
+    puts "Would you like to logout or quit (logout/quit)?"
     search_again = gets.chomp
-  elsif
-     search_again = "q" || "quit"
+    case search_again
+    when "quit"
+
    else
+     puts "Logging Out.."
+     sleep(1)
      welcome
    end
  end
+end
