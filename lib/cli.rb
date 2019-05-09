@@ -14,17 +14,15 @@
 # end
 
 def welcome
-  puts "Welcome to Coin Wallet! What is your name?"
-  current_user = gets.chomp
-  user_object = User.find_or_create_by(:name => current_user)
-  user_id = User.last.id
-  Wallet.find_or_create_by(:user_id => user_id)
-  puts "welcome #{current_user}, what coin would you like to search for?"
+  puts "Welcome to Coin Wallet! What coin would you like to search for?"
   coin_selection = gets.chomp
-  puts "#{current_user}, loading popular data for #{coin_selection}..."
+  puts "loading popular data for #{coin_selection}..."
   sleep(3)
   display_coin_info(coin_selection)
   buy_or_hold(coin_selection)
+  user_object.coins = []
+  user_object.coins << user_object.
+  binding.pry
   puts "Would you like to see your wallet?"
   response = gets.chomp
   if response == "yes"
@@ -39,7 +37,12 @@ def buy_or_hold(coin_selection)
   answer = gets.chomp
   case answer
   when "yes"
-    puts "How many coins would you like to add?"
+    puts "What is your name?"
+    current_user = gets.chomp
+    user_object = User.find_or_create_by(:name => current_user)
+    user_id = User.last.id
+    Wallet.find_or_create_by(:user_id => user_id)
+    puts "#{current_user}, how many coins would you like to add?"
     how_many = gets.chomp.to_f
   coin_hash = get_coindata(coin_selection).flatten
   new_coin = Coin.create(:name => coin_selection,
