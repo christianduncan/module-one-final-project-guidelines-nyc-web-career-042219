@@ -6,11 +6,15 @@ class User < ActiveRecord::Base
   has_many :coins, through: :wallets
 
 
-
+# def coins
+#   my_wallets = Wallet.all.where("user_id = id")
+#   coinids = my_wallets.map {|wallet| wallet.coin_id}
+#   Coin.all.where("Coin.all.include?(coinids)")
+# end
 # attr_accessor :bank
 
 # def inititalize
-#   @bank = []
+#   @bank = [
 # end
 
 

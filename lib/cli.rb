@@ -12,6 +12,9 @@
 #   display_coin_info(coin_selection)
 #
 # end
+class CLI
+
+  attr_accessor :user
 
 def welcome
   puts "What coin would you like to search for?"
@@ -28,11 +31,11 @@ def buy_or_hold(coin_selection)
   case answer
   when "yes"
     puts "What is your name?"
-    current_user = gets.chomp
-    user_object = User.find_or_create_by(:name => current_user)
-    user_id = User.last.id
-    Wallet.find_or_create_by(:user_id => user_id)
-    puts "#{current_user}, how many coins would you like to add?"
+    name = gets.chomp
+    @user = User.find_or_create_by(name: name)
+
+
+    puts "#{name}, how many coins would you like to add?"
     how_many = gets.chomp.to_i
   coin_hash = get_coindata(coin_selection).flatten
   new_coin = Coin.create(:name => coin_selection,
@@ -40,17 +43,16 @@ def buy_or_hold(coin_selection)
     :market_cap => coin_hash[11],
     :volume_24h => coin_hash[3],
     :change_24h => coin_hash[7].to_d.truncate(2).to_f)
-    coin_id = Coin.last.id
-    Wallet.update(:coin_id => coin_id, :value => new_coin.price,
-      :performance => new_coin.change_24h)
-      user_object.coins = []
-      how_many.times do user_object.coins << new_coin end
-      user_object.coins
+
+    how_many.times do Wallet.create(coin_id: new_coin.id,user_id: @user.id) end
+ binding.pry
+      # how_many.times do @user.coins << new_coin end
+
       puts "Would you like to see your wallet?"
       response = gets.chomp
       if response == "yes"
         counter = 0
-      user_object.coins.each do |coin|
+      @user.coins.each do |coin|
         counter += 1
         puts "#{counter}, Coin Name: #{coin[:name]}, Coin Price: #{coin[:price]}
         Daily Change: #{coin[:change_24h]}%"
@@ -72,3 +74,4 @@ def buy_or_hold(coin_selection)
  end
 end
 # adding a comment
+end
