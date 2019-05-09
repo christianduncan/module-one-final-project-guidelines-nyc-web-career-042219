@@ -12,6 +12,7 @@
 #   display_coin_info(coin_selection)
 #
 # end
+ActiveRecord::Base.logger = nil
 class CLI
 
   attr_accessor :user
@@ -45,7 +46,6 @@ def buy_or_hold(coin_selection)
     :change_24h => coin_hash[7].to_d.truncate(2).to_f)
 
     how_many.times do Wallet.create(coin_id: new_coin.id,user_id: @user.id) end
- binding.pry
       # how_many.times do @user.coins << new_coin end
 
       puts "Would you like to see your wallet?"
@@ -57,8 +57,14 @@ def buy_or_hold(coin_selection)
         puts "#{counter}, Coin Name: #{coin[:name]}, Coin Price: #{coin[:price]}
         Daily Change: #{coin[:change_24h]}%"
       end
+      puts "Would you like to continue searching, or quit?"
+        answer = gets.chomp
+        case answer
+        when "quit"
+        else
         welcome
       end
+    end
 
   when "no"
     puts "Would you like to logout or quit (logout/quit)?"

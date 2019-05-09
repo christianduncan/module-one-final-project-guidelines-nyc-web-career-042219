@@ -1,8 +1,8 @@
 class Wallet < ActiveRecord::Base
 
 
-  belongs_to :users
-  belongs_to :coins
+  belongs_to :user
+  belongs_to :coin
 
   # attr_accessor :coin_array
   #
